@@ -78,7 +78,7 @@ best_inv <- best$inversion
 best_pc <- best$pc
 
 
- most meaningful ANOVA table
+
 
 d_best <- proj[!is.na(get(best_inv)), .(y = get(best_pc), g = factor(get(best_inv)))]
 fit_best <- aov(y ~ g, data = d_best)
@@ -100,4 +100,5 @@ print(p_final)
 dev.off()
 
 cat("\nSaved figure: PC1_PC2_inversion.pdf\n")
+
 
