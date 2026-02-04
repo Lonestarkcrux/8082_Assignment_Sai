@@ -14,7 +14,7 @@ inv[, ral_id := as.numeric(gsub("DGRP_", "", `DGRP Line`))]
 
 
 stopifnot(!any(is.na(markers$ral_id_num)))
-stopifnot("ral_id" %in% names(inv))  # inv already has ral_id numeric
+stopifnot("ral_id" %in% names(inv))  
 
 
 geno <- dcast(markers, ral_id_num ~ snp_id, value.var = "dosage")
@@ -31,9 +31,9 @@ mat[na_idx] <- col_means[na_idx[, 2]]
 
 pca <- prcomp(mat, center = TRUE, scale. = TRUE)
 
-# keep first 10 PCs (enough for testing)
+
 proj <- as.data.table(pca$x[, 1:10])
-proj[, ral_id := geno$ral_id_num]  # keep numeric IDs for merging
+proj[, ral_id := geno$ral_id_num]  
 
 
 
@@ -46,7 +46,7 @@ print(p_base)
 
 proj <- merge(proj, inv, by = "ral_id", all.x = TRUE)
 
-# inversion columns: everything except ral_id and "DGRP Line"
+
 inv_cols <- setdiff(names(inv), c("ral_id", "DGRP Line"))
 pcs <- paste0("PC", 1:10)
 
@@ -60,7 +60,7 @@ tests <- foreach(invn = inv_cols, .combine = rbind) %do% {
     
     d <- proj[!is.na(get(invn)), .(y = get(pc), g = factor(get(invn)))]
     
-    # need at least 2 groups for ANOVA
+  
     if (nlevels(d$g) < 2) {
       data.table(inversion = invn, pc = pc, p = NA_real_)
     } else {
@@ -100,3 +100,4 @@ print(p_final)
 dev.off()
 
 cat("\nSaved figure: PC1_PC2_inversion.pdf\n")
+
