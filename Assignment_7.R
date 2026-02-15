@@ -1,3 +1,5 @@
+##How does sample size effect winner's curse
+
 
 library(data.table)
 library(foreach)
@@ -59,3 +61,4 @@ winner_plot <-
   theme_bw()
 
 winner_plot
+
